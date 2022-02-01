@@ -1,0 +1,138 @@
+#Import the stuff needed here.
+import time
+import os
+
+# Global variables
+items = []
+prices = []
+exit = False
+
+
+# Functions and procedures
+def getItems():
+    for i in range(5):
+        item = input("What is the item you wish to add?  : ")
+        items.append(item)
+        cost = float(input("How much does the item cost? : £"))
+        if cost <= 0:
+            print("Invalid price entered")
+            continue
+        else:
+            prices.append(cost)
+
+
+
+def WelcomeScreen(): #This method is a welcome screen just for a bit of fun,
+    time.sleep(2)
+    print("OoOoOoOoOoOoOoOoO")
+    time.sleep(2)
+    print("Our Menu system is loading!")
+    time.sleep(4)
+    print("||||||||||||||||")
+    time.sleep(4)
+    print("Enjoy our special offer where you purchase 5 items, you will get the cheapest item free!")
+
+def SortList(): #This method will sort the prices in ascending order
+    hasSwapped = True
+    while (hasSwapped):
+        hasSwapped = False
+        for i in range(len(prices) - 1):
+            if prices[i] > prices[i+1]:
+                prices[i], prices[i+1] = prices[i + 1], prices[i]
+                hasSwapped = True
+   
+def findMax(): #This method will allow me to quickly find the item with the highest price.
+    max = prices[0]
+    maxIndex = 0
+    for i in range(5):
+        if(prices[i]>max):
+            max = prices[i]
+            maxIndex = i
+    print("Most expensive item is a ", items[maxIndex], " and costs ", max)
+    pause()
+
+def findMin(): #This method will allow me to quickly find the item with least price.
+    min = prices[0]
+    minIndex = 0
+    for i in range (5):
+        if(prices[i]<min):
+            min = prices[i]
+            minIndex = i   
+    print("Least expensive item is a ", items[minIndex], " and costs ", min)
+    pause()
+
+def DiscountTotal(): #This method will find the total cost of the items, and discount the cheapest.
+    min = prices[0]
+    totalCost = 0
+    discountCost = 0
+    for i in range(5):
+        totalCost = totalCost + prices[i]
+    print("Total cost is ", totalCost)
+    discountCost = totalCost - min
+    print("Discount cost is now, ", discountCost)
+    pause()
+
+def findTotalCost(): #This method will give me the total cost of the items.
+    totalCost = 0
+    for i in range (5):
+        totalCost = totalCost + prices[i]
+    print("Total cost of items is ", totalCost)
+    pause()
+
+def printLists(): #This method prints my list.
+    print(items)
+    print(prices)
+    pause()
+
+def clearScreen(): #This method clears the screen for a new clean screen whilst the code is running.
+    os.system("cls")
+
+def pause(): #This method will pause the python comppiler for running.
+    print("")
+    input("Press enter to continue")
+
+def printMenu(): #This method will print out my list, ready for a selection.
+    clearScreen()
+    print("Online Shop ")
+    print("======================")
+    print("1 - Find most expensive item")
+    print("2 - Find cheapest item")
+    print("3 - Do you qualify for discount?")
+    print("4 - Find total cost of shopping")
+    print("5 - Print list of items")
+    print("6 - Sort the prices and print the list")
+    print("7 - Exit program")
+    print("")
+    valid = False
+    while(not valid):
+        choice = int(input("Enter your choice (1-7): "))
+        if (choice<1 or choice>7):
+            print("Invalid input - please enter a number between 1 and 7")
+        else:
+            valid = True
+    return choice
+
+# Main program
+WelcomeScreen()
+getItems()
+
+#This code will control the menu, and ensure the correct number is supplied, or have an error.
+while (not exit):
+    menuOption = printMenu()
+    if (menuOption == 1):
+       findMax()
+    elif(menuOption == 2):
+        findMin()
+    elif(menuOption == 3):
+        DiscountTotal()
+    elif(menuOption == 4):
+        findTotalCost()
+    elif(menuOption == 5):
+        printLists()
+    elif(menuOption == 6):
+        SortList()
+    elif(menuOption == 7):
+        print("Exiting program")
+        exit = True
+    else:
+        print("Invalid input - please enter a number from 1-7")
